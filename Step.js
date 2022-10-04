@@ -9,6 +9,7 @@ class Step {
     constructor(steps) {
         this.step = steps.step;
         this.index = steps.index;
+        this.render();
     }
 
     state = {
@@ -38,12 +39,12 @@ class Step {
     }
 
     render() {
-        const {step} = this.props;
-        const {substepsExpanded} = this.state;
+        // const {step} = this.props;
+        // const {substepsExpanded} = this.state;
 
-        return print.oldNode(step),
-               Change.formatChange(step),
-               this.renderStep(step);
+        return print.oldNode(this.step),
+               Change.formatChange(this.step),
+               this.renderStep(this.step);
     }
 }
 

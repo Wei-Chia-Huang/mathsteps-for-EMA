@@ -42,5 +42,6 @@ class Steps {
     }
 }
 
-let answer = new Steps("1 + 2");
+let answer = new Steps("1+2*8");
+// console.log(mathsteps.simplifyExpression("1+2"));
 console.log(answer.render());

@@ -1,7 +1,7 @@
 // import { ChangeTypes } from 'mathsteps';
 // import NodeType from './NodeType.js'
 
-const ChangeTypes = require('mathsteps');
+const ChangeTypes = require('mathsteps/lib/ChangeTypes.js');
 const NodeType = require('./NodeType.js');
 
 const Change = {
@@ -38,7 +38,7 @@ Change.formatChange = function(step) {
     if (!changeDescription) {
         return `\\text{${Change.ChangeText[step.changeType]}}`;
     }
-
+    
     return changeDescription;
 };
 
@@ -762,4 +762,4 @@ Change.ChangeText = {
 };
 
 // export default Change;
-// module.exports = Change;
+module.exports = Change;
