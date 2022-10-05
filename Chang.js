@@ -36,7 +36,7 @@ Change.formatChange = function(step) {
     const changeFormatFunctionMap = Change.changeFormatFunctionMap[step.changeType];
     let changeDescription = changeFormatFunctionMap(step);
     if (!changeDescription) {
-        return `\\text{${Change.ChangeText[step.changeType]}}`;
+        return Change.ChangeText[step.changeType];
     }
     
     return changeDescription;
@@ -86,7 +86,7 @@ function nodesToString(nodes, duplicates=false) {
         return strings[0];
     }
     else {
-        return `${strings.slice(0, -1).join(', ')} \\text{ and } ${strings.slice(-1)}`;
+        return strings.slice(0, -1).join(', ') + " and " + strings.slice(-1);
     }
 }
 
@@ -103,7 +103,7 @@ Change.changeFormatFunctionMap[ChangeTypes.ABSOLUTE_VALUE] = function(step) {
     }
 
     const string = absNode.args[0].toTex();
-    return `\\text{Take the absolute value of } ${string}`;
+    return "Take the absolute value of " + string;
 };
 
 // e.g. 2x + x -> 2x + 1x
@@ -116,7 +116,7 @@ Change.changeFormatFunctionMap[ChangeTypes.ADD_COEFFICIENT_OF_ONE] = function(st
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. x^2 * x -> x^2 * x^1
@@ -129,7 +129,7 @@ Change.changeFormatFunctionMap[ChangeTypes.ADD_EXPONENT_OF_ONE] = function(step)
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 1/2 + 1/3 -> 5/6
@@ -147,12 +147,12 @@ Change.changeFormatFunctionMap[ChangeTypes.ADD_FRACTIONS] = function(step) {
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-    return `\\text{Add } ${before} \\text{ to get } ${after}`;
+    return "Add " + before + " to get " + after;
 };
 
 // e.g. (1 + 2)/3 -> 3/3
 Change.changeFormatFunctionMap[ChangeTypes.ADD_NUMERATORS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x^2 + x^2 -> 2x^2
@@ -170,7 +170,7 @@ Change.changeFormatFunctionMap[ChangeTypes.ADD_POLYNOMIAL_TERMS] = function(step
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-    return `\\text{Add } ${before} \\text{ to get } ${after}`;
+    return "Add " + before + " to get " + after;
 };
 
 // e.g. x - 3 = 2 -> x - 3 + 3 = 2 + 3
@@ -182,7 +182,7 @@ Change.changeFormatFunctionMap[ChangeTypes.ADD_TO_BOTH_SIDES] = function(step) {
     }
 
     const term = termNodes[0].toTex();
-    return `\\text{Add } ${term} \\text{ to both sides}`;
+    return "Add " + term + " to both sides";
 };
 
 // e.g. (x + 2)/2 -> x/2 + 2/2
@@ -193,27 +193,27 @@ Change.changeFormatFunctionMap[ChangeTypes.BREAK_UP_FRACTION] = function(step) {
     }
 
     const before = nodesToString(oldNodes);
-    return `\\text{Break up the fraction } ${before}`;
+    return "Break up the fraction " + before;
 };
 
 // e.g. nthRoot(x ^ 2, 4) -> nthRoot(x, 2)
 Change.changeFormatFunctionMap[ChangeTypes.CANCEL_EXPONENT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(x ^ 2, 2) -> x
 Change.changeFormatFunctionMap[ChangeTypes.CANCEL_EXPONENT_AND_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(x ^ 2, 2) -> x
 Change.changeFormatFunctionMap[ChangeTypes.CANCEL_MINUSES] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(x ^ 4, 2) -> x ^ 2
 Change.changeFormatFunctionMap[ChangeTypes.CANCEL_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2x/2 -> x
@@ -224,37 +224,37 @@ Change.changeFormatFunctionMap[ChangeTypes.CANCEL_TERMS] = function(step) {
     }
 
     const before = nodesToString(oldNodes);
-    return `\\text{Cancel } ${before} \\text{ from the numerator and denominator}`;
+    return "Cancel " + before + " from the numerator and denominator";
 };
 
 // e.g. 2 + x + 3 + x -> 5 + 2x
 Change.changeFormatFunctionMap[ChangeTypes.COLLECT_AND_COMBINE_LIKE_TERMS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x^2 * x^3 * x^1 -> x^(2 + 3 + 1)
 Change.changeFormatFunctionMap[ChangeTypes.COLLECT_EXPONENTS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x + 2 + x^2 + x + 4 -> x^2 + (x + x) + (4 + 2)
 Change.changeFormatFunctionMap[ChangeTypes.COLLECT_LIKE_TERMS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2/5 + 1/5 -> (2+1)/5
 Change.changeFormatFunctionMap[ChangeTypes.COMBINE_NUMERATORS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(2, 2) * nthRoot(3, 2) -> nthRoot(2 * 3, 2)
 Change.changeFormatFunctionMap[ChangeTypes.COMBINE_UNDER_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2/6 + 1/4 -> (2*2)/(6*2) + (1*3)/(4*3)
 Change.changeFormatFunctionMap[ChangeTypes.COMMON_DENOMINATOR] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 3 + 1/2 -> 6/2 + 1/2
@@ -267,7 +267,7 @@ Change.changeFormatFunctionMap[ChangeTypes.CONVERT_INTEGER_TO_FRACTION] = functi
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Change } ${before} \\text{ to } ${after} \\text{ so that it has a shared denominator}`;
+    return "Change " + before + " to " + after + " so that it has a shared denominator";
 };
 
 // e.g. 2 * 2 * 2 -> 2 ^ 3
@@ -280,22 +280,22 @@ Change.changeFormatFunctionMap[ChangeTypes.CONVERT_MULTIPLICATION_TO_EXPONENT] =
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 2(x + y) -> 2x + 2y
 Change.changeFormatFunctionMap[ChangeTypes.DISTRIBUTE] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. -(2 + x) -> -2 - x
 Change.changeFormatFunctionMap[ChangeTypes.DISTRIBUTE_NEGATIVE_ONE] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(2 * x) -> nthRoot(2) * nthRoot(x)
 Change.changeFormatFunctionMap[ChangeTypes.DISTRIBUTE_NTH_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // 1.2 + 1/2 -> 1.2 + 0.5
@@ -308,7 +308,7 @@ Change.changeFormatFunctionMap[ChangeTypes.DIVIDE_FRACTION_FOR_ADDITION] = funct
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Divide } ${before} \\text{ so it's in the decimal form } ${after}`;
+    return "Divide " + before + " so it's in the decimal form " + after;
 };
 
 // e.g. 2x = 1 -> (2x)/2 = 1/2
@@ -319,7 +319,7 @@ Change.changeFormatFunctionMap[ChangeTypes.DIVIDE_FROM_BOTH_SIDES] = function(st
     }
 
     const term = termNodes[0].toTex();
-    return `\\text{Divide both sides by } ${term}`;
+    return "Divide both sides by " + term;
 };
 
 // e.g. 2/-1 -> -2
@@ -332,7 +332,7 @@ Change.changeFormatFunctionMap[ChangeTypes.DIVISION_BY_NEGATIVE_ONE] = function(
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `${before} \\text{ divided by -1 is } ${after}`;
+    return before + " divided by -1 is " + after;
 };
 
 // e.g. 2/1 -> 2
@@ -345,12 +345,12 @@ Change.changeFormatFunctionMap[ChangeTypes.DIVISION_BY_ONE] = function(step) {
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `${before} \\text{ divided by 1 is } ${after}`;
+    return before + " divided by 1 is " + after;
 };
 
 // e.g. nthRoot(4) * nthRoot(x^2) -> 2 * x
 Change.changeFormatFunctionMap[ChangeTypes.EVALUATE_DISTRIBUTED_NTH_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 12 -> 2 * 2 * 3
@@ -363,17 +363,17 @@ Change.changeFormatFunctionMap[ChangeTypes.FACTOR_INTO_PRIMES] = function(step) 
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Factor } ${before} \\text{ into its prime factors: } ${after}`;
+    return "Factor " + before + " into its prime factors: " + after;
 };
 
 // e.g. 2x^2 + 3x^2 + 5x^2 -> (2+3+5)x^2
 Change.changeFormatFunctionMap[ChangeTypes.GROUP_COEFFICIENTS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. nthRoot(2 * 2 * 2, 2) -> nthRoot((2 * 2) * 2)
 Change.changeFormatFunctionMap[ChangeTypes.GROUP_TERMS_BY_ROOT] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. (2/3)x = 1 -> (2/3)x * (3/2) = 1 * (3/2)
@@ -384,12 +384,12 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_BOTH_SIDES_BY_INVERSE_FRACTI
     }
 
     const term = termNodes[0].toTex();
-    return `\\text{Multiply both sides by the inverse } ${term}`;
+    return "Multiply both sides by the inverse " + term;
 };
 
 // e.g. -x = 2 -> -1 * -x = -1 * 2
 Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_BOTH_SIDES_BY_NEGATIVE_ONE] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x/(2/3) -> x * 3/2
@@ -402,7 +402,7 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_BY_INVERSE] = function(step)
 
     const before = nodesToString(oldNodes, true);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. x * 0 -> 0
@@ -415,7 +415,7 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_BY_ZERO] = function(step) {
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. (2 * 3)(x * x) -> 6(x*x)
@@ -433,12 +433,12 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_COEFFICIENTS] = function(ste
 
     const before = nodesToString(oldNodes, true);
     const after = newNodes[0].toTex();
-    return `\\text{Multiply the coefficients } ${before} \\text{ to get } ${after}`;
+    return "Multiply the coefficients " + before + " to get " + after;
 };
 
 // e.g. (2*2)/(6*2) + (1*3)/(4*3) -> (2*2)/12 + (1*3)/12
 Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_DENOMINATORS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 1/2 * 2/3 -> 2/6
@@ -456,12 +456,12 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_FRACTIONS] = function(step) 
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-    return `\\text{Multiply } ${before} \\text{ to get } ${after}`;
+    return "Multiply " + before + " to get " + after;
 };
 
 // e.g. (2*2)/12 + (1*3)/12 -> 4/12 + 3/12
 Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_NUMERATORS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2x * x -> 2x ^ 2
@@ -479,7 +479,7 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_POLYNOMIAL_TERMS] = function
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-    return `\\text{Multiply } ${before} \\text{ to get } ${after}`;
+    return "Multiply " + before + " to get " + after;
 };
 
 // e.g. x/2 = 1 -> (x/2) * 2 = 1 * 2
@@ -490,7 +490,7 @@ Change.changeFormatFunctionMap[ChangeTypes.MULTIPLY_TO_BOTH_SIDES] = function(st
     }
 
     const term = termNodes[0].toTex();
-    return `\\text{Multiply both sides by } ${term}`;
+    return "Multiply both sides by " + term;
 };
 
 // This should never happen
@@ -506,12 +506,12 @@ Change.changeFormatFunctionMap[ChangeTypes.NTH_ROOT_VALUE] = function(step) {
     }
 
     const before = nodesToString(oldNodes);
-    return `\\text{Take the root of } ${before}`;
+    return "Take the root of " + before;
 };
 
 // e.g. x * 2 -> 2x
 Change.changeFormatFunctionMap[ChangeTypes.REARRANGE_COEFF] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x ^ 0 -> 1
@@ -524,7 +524,7 @@ Change.changeFormatFunctionMap[ChangeTypes.REDUCE_EXPONENT_BY_ZERO] = function(s
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 0/1 -> 0
@@ -537,12 +537,12 @@ Change.changeFormatFunctionMap[ChangeTypes.REDUCE_ZERO_NUMERATOR] = function(ste
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 2 + 0 -> 2
 Change.changeFormatFunctionMap[ChangeTypes.REMOVE_ADDING_ZERO] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x ^ 1 -> x
@@ -555,7 +555,7 @@ Change.changeFormatFunctionMap[ChangeTypes.REMOVE_EXPONENT_BY_ONE] = function(st
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. x * -1 -> -x
@@ -568,7 +568,7 @@ Change.changeFormatFunctionMap[ChangeTypes.REMOVE_MULTIPLYING_BY_NEGATIVE_ONE] =
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. x * 1 -> x
@@ -581,12 +581,12 @@ Change.changeFormatFunctionMap[ChangeTypes.REMOVE_MULTIPLYING_BY_ONE] = function
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 2 - - 3 -> 2 + 3
 Change.changeFormatFunctionMap[ChangeTypes.RESOLVE_DOUBLE_MINUS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2 + 2 -> 4 or 2 * 2 -> 4
@@ -604,7 +604,7 @@ Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(step)
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-    return `\\text{${OP_TO_STRING[opNode.op]} } ${before} \\text{ to get } ${after}`;
+    return OP_TO_STRING[opNode.op] + " " + before + " to get " + after;
 };
 
 // e.g. 2/3/4 -> 2/(3*4)
@@ -617,7 +617,7 @@ Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_DIVISION] = function(step) {
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 // e.g. 2/6 -> 1/3
@@ -630,39 +630,39 @@ Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_FRACTION] = function(step) {
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Simplify } ${before} \\text{ to } ${after}`;
+    return "Simplify " + before + " to " + after;
 };
 
 // e.g. x + 2 - 1 = 3 -> x + 1 = 3
 Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_LEFT_SIDE] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. x = 3 - 1 -> x = 2
 Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_RIGHT_SIDE] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2/-3 -> -2/3
 Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_SIGNS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2 * 4x + 2*5 --> 8x + 10
 Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_TERMS] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2 = 2
 Change.changeFormatFunctionMap[ChangeTypes.STATEMENT_IS_FALSE] = function(step) {
     const comparator = step.newEquation.comparator;
-    return `\\text{The left side is not ${COMPARATOR_TO_STRING[comparator]} the right side}`;
+    return "The left side is not " + COMPARATOR_TO_STRING[comparator] + " the right side";
 };
 
 // e.g. 2 = 3
 Change.changeFormatFunctionMap[ChangeTypes.STATEMENT_IS_TRUE] = function(step) {
     const comparator = step.newEquation.comparator;
-    return `\\text{The left side is ${COMPARATOR_TO_STRING[comparator]} the right side}`;
+    return "The left side is " + COMPARATOR_TO_STRING[comparator] + " the right side";
 };
 
 // e.g. x + 3 = 2 -> x + 3 - 3 = 2 - 3
@@ -673,12 +673,12 @@ Change.changeFormatFunctionMap[ChangeTypes.SUBTRACT_FROM_BOTH_SIDES] = function(
     }
 
     const term = termNodes[0].toTex();
-    return `\\text{Subtract } ${term} \\text{ from both sides}`;
+    return "Subtract " + term + " from both sides";
 };
 
 // e.g. 2 = x -> x = 2
 Change.changeFormatFunctionMap[ChangeTypes.SWAP_SIDES] = function(step) {
-    return `\\text{${Change.ChangeText[step.changeType]}}`;
+    return Change.ChangeText[step.changeType];
 };
 
 // e.g. 2x - x -> 2x - 1x
@@ -691,7 +691,7 @@ Change.changeFormatFunctionMap[ChangeTypes.UNARY_MINUS_TO_NEGATIVE_ONE] = functi
 
     const before = nodesToString(oldNodes);
     const after = nodesToString(newNodes);
-    return `\\text{Rewrite } ${before} \\text{ as } ${after}`;
+    return "Rewrite " + before + " as " + after;
 };
 
 Change.ChangeText = {

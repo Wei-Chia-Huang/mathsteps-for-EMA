@@ -15,7 +15,7 @@ function isEquation(mathInput) {
     return isEquation;
 }
 
-const input = "(12 + 5) * (34 - 70) / 5";
+const input = "(12 + 5) * (34 - 70) / 6";
 const steps = isEquation(input)
     ? mathsteps.solveEquation(input)
     : mathsteps.simplifyExpression(input);
