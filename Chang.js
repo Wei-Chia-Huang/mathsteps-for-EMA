@@ -3,6 +3,7 @@
 
 const ChangeTypes = require('mathsteps/lib/ChangeTypes.js');
 const NodeType = require('./NodeType.js');
+var fs = require('fs');
 
 const Change = {
     changeFormatFunctionMap: {}
@@ -88,6 +89,17 @@ function nodesToString(nodes, duplicates=false) {
     else {
         return strings.slice(0, -1).join(', ') + " and " + strings.slice(-1);
     }
+}
+
+function appendCommand(command) {
+    fs.appendFile('./CommandTextList.txt', command, function(error){
+        if (error){
+            console.log(error);
+        }
+        else {
+            console.log('Append command');
+        }
+    });
 }
 
 // e.g. |-3| -> 3
@@ -604,6 +616,28 @@ Change.changeFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(step)
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
+
+    switch (OP_TO_STRING[opNode.op]) {
+        case 'Combine': {
+            let command = 'AddTemplate.py (' + before + ')\n';
+            appendCommand(command);
+            break;
+        }
+        case 'Multiply': {
+            let command = 'MulTemplate.py (' + before + ')\n';
+            appendCommand(command);
+            break;
+        }
+        case 'Divide': {
+            let command = 'DivTemplate.py (' + before + ')\n';
+            appendCommand(command);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    
     return OP_TO_STRING[opNode.op] + " " + before + " to get " + after;
 };
 

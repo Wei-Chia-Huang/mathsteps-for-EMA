@@ -17,10 +17,19 @@ function isEquation(mathInput) {
     return isEquation;
 }
 
-const input = "123+456+789+36";
+const input = "123 + 456 * (66 + 1)";
 const steps = isEquation(input)
     ? mathsteps.solveEquation(input)
     : mathsteps.simplifyExpression(input);
+
+fs.writeFile('./CommandTextList.txt', 'Template command of ' + input + '\n', function(error){
+    if (error){
+        console.log(error);
+    }
+    else {
+        console.log('Write command complete');
+    }
+});
 
 // console.log(print.ascii(steps[0].oldNode));
 var StepsText = print.ascii(steps[0].oldNode) + '\n';
@@ -37,6 +46,6 @@ fs.writeFile('./StepsText.txt', StepsText, function(error){
         console.log('Write file fail!');
     }
     else {
-        console.log('Write file success!');
+        console.log('Write steps complete');
     }
 });

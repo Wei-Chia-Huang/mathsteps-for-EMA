@@ -1,3 +1,7 @@
-123 + 456 + 789 + 36
-Combine 123, 456, 789 and 36 to get 1404
-1404
+123 + 456 * (66 + 1)
+Combine 66 and 1 to get 67
+123 + 456 * 67
+Multiply 456 and 67 to get 30552
+123 + 30552
+Combine 123 and 30552 to get 30675
+30675
