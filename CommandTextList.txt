@@ -1,4 +1,1 @@
-Template command of 123 + 456 * (66 + 1)
-AddTemplate.py (66 and 1)
-MulTemplate.py (456 and 67)
-AddTemplate.py (123 and 30552)
+Template command of 123 / 3
