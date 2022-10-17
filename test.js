@@ -18,7 +18,7 @@ function isEquation(mathInput) {
     return isEquation;
 }
 
-const input = "123 + 3 * 78";
+const input = "123 + (3 + 1) * 78 / 6";
 const steps = isEquation(input)
     ? mathsteps.solveEquation(input)
     : mathsteps.simplifyExpression(input);

@@ -115,4 +115,23 @@ Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(s
     }
 };
 
+// e.g. 2/6 -> 1/3
+Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_FRACTION] = function(step) {
+    const oldNodes = getOldChangeNodes(step);
+    const newNodes = getNewChangeNodes(step);
+    if (oldNodes.length !== 1 || newNodes.length !== 1) {
+        return null;
+    }
+
+    const before = nodesToString(oldNodes);
+    const after = nodesToString(newNodes);
+
+    if (!isNaN(after)){
+        return 'DivTemplate.py (' + before + ')';
+    }
+    else{
+        return step.changeType;
+    }
+};
+
 module.exports = Template;

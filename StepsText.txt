@@ -1,5 +1,9 @@
-123 + 3 * 78
-Multiply 3 and 78 to get 234
-123 + 234
-Combine 123 and 234 to get 357
-357
+123 + (3 + 1) * 78/6
+Simplify by dividing the top and bottom by the greatest common denominator
+123 + (3 + 1) * 13
+Combine 3 and 1 to get 4
+123 + 4 * 13
+Multiply 4 and 13 to get 52
+123 + 52
+Combine 123 and 52 to get 175
+175
