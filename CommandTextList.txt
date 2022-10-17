@@ -1,1 +1,3 @@
-Template command of 123 / 3
+Template command of 123 + 3 * 78
+MulTemplate.py (3,78)
+AddTemplate.py (123,234)
