@@ -1,5 +1,4 @@
-Template command of 123 + (3 + 1) * 78 / 6
-DivTemplate.py (\frac{78}{6})
-AddTemplate.py (3,1)
-MulTemplate.py (4,13)
-AddTemplate.py (123,52)
+Template command of 123 + 3 - 6 + 8
+Addtemplate.py (123,3,8,)
+AddTemplate.py (-6,)
+SubTemplate.py (positiveSum, negativeSum)

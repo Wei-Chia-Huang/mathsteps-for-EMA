@@ -87,6 +87,35 @@ function nodesToString(nodes, duplicates=false) {
     }
 }
 
+function combineTemplate(values) {
+    let haveNegative = false;
+    let positiveVals = "";
+    let negativeVals = "";
+    let commandText = "";
+
+    values.forEach(value => {
+        if (value.includes('-')) {
+            haveNegative = true;
+            negativeVals += value + ",";
+        }
+        else {
+            positiveVals += value + ",";
+        }
+    });
+
+    if (haveNegative) {
+        let positiveSum = "positiveSum";
+        let negativeSum = "negativeSum";
+        commandText += "Addtemplate.py (" + positiveVals + ")\n";
+        commandText += "AddTemplate.py (" + negativeVals + ")\n";
+        commandText += "SubTemplate.py (" + positiveSum + ", " + negativeSum + ")";
+        return commandText;
+    }
+    else{
+        return "AddTemplate.py (" + values + ")";
+    }
+}
+
 // e.g. 2 + 2 -> 4 or 2 * 2 -> 4
 Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(step) {
     const oldNodes = getOldChangeNodes(step);
@@ -102,10 +131,10 @@ Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(s
 
     const before = nodesToString(opNode.args, true);
     const after = newNodes[0].toTex();
-
+    
     switch (OP_TO_STRING[opNode.op]) {
         case 'Combine': 
-            return 'AddTemplate.py (' + before + ')';
+            return combineTemplate(before);
         case 'Multiply': 
             return 'MulTemplate.py (' + before + ')';
         case 'Divide': 
