@@ -89,31 +89,48 @@ function nodesToString(nodes, duplicates=false) {
 
 function combineTemplate(values) {
     let haveNegative = false;
-    let positiveVals = "";
-    let negativeVals = "";
+    let positiveValsArr = [];
+    let negativeValsArr = [];
     let commandText = "";
-
+    
     values.forEach(value => {
         if (value.includes('-')) {
             haveNegative = true;
-            negativeVals += value + ",";
+            negativeValsArr.push(value);
         }
         else {
-            positiveVals += value + ",";
+            positiveValsArr.push(value);
         }
     });
 
     if (haveNegative) {
         let positiveSum = "positiveSum";
         let negativeSum = "negativeSum";
-        commandText += "Addtemplate.py (" + positiveVals + ")\n";
-        commandText += "AddTemplate.py (" + negativeVals + ")\n";
-        commandText += "SubTemplate.py (" + positiveSum + ", " + negativeSum + ")";
-        return commandText;
+        
+        if (values.length === 2) {
+            commandText = "SubTemplate.py (" + values + ")";
+        }
+        else if (values.length === 3) {
+            if (positiveValsArr.length === 1){
+                commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
+                commandText += "SubTemplate.py (" + positiveValsArr + ", " + negativeSum + ")";
+            }
+            else {
+                commandText += "AddTemplate.py (" + positiveValsArr + ")\n";
+                commandText += "SubTemplate.py (" + positiveSum + ", " + negativeValsArr + ")";
+            }
+        }
+        else {
+            commandText += "Addtemplate.py (" + positiveValsArr + ")\n";
+            commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
+            commandText += "SubTemplate.py (" + positiveSum + ", " + negativeSum + ")";
+        }
     }
-    else{
-        return "AddTemplate.py (" + values + ")";
+    else {
+        commandText = "AddTemplate.py (" + values + ")";
     }
+
+    return commandText;
 }
 
 // e.g. 2 + 2 -> 4 or 2 * 2 -> 4

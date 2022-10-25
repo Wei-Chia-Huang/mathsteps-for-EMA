@@ -1,4 +1,3 @@
-Template command of 123 + 3 - 6 + 8
-Addtemplate.py (123,3,8,)
-AddTemplate.py (-6,)
-SubTemplate.py (positiveSum, negativeSum)
+Template command of 123 - 3 - 6
+AddTemplate.py (-3,-6)
+SubTemplate.py (123, negativeSum)
