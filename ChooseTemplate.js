@@ -87,47 +87,71 @@ function nodesToString(nodes, duplicates=false) {
     }
 }
 
-function combineTemplate(values) {
-    let haveNegative = false;
-    let positiveValsArr = [];
-    let negativeValsArr = [];
+function combineTemplate(values, solveType) {
     let commandText = "";
     
-    values.forEach(value => {
-        if (value.includes('-')) {
-            haveNegative = true;
-            negativeValsArr.push(value);
-        }
-        else {
-            positiveValsArr.push(value);
-        }
-    });
+    switch (solveType) {
+        case 'sequence': {
+            let ans = Number(values[0]);
 
-    if (haveNegative) {
-        let positiveSum = "positiveSum";
-        let negativeSum = "negativeSum";
-        
-        if (values.length === 2) {
-            commandText = "SubTemplate.py (" + values + ")";
+            for (let i = 1; i < values.length; i++) {
+                if (values[i].includes('-')) {
+                    commandText += "SubTemplate.py (" + ans + "," + values[i] + ")\n";
+                }
+                else {
+                    commandText += "AddTemplate.py (" + ans + "," + values[i] + ")\n";
+                }
+                ans = ans + Number(values[i]);
+            }
+            break;
         }
-        else if (values.length === 3) {
-            if (positiveValsArr.length === 1){
-                commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
-                commandText += "SubTemplate.py (" + positiveValsArr + ", " + negativeSum + ")";
+        case 'pos - neg': {
+            let haveNegative = false;
+            let positiveValsArr = [];
+            let negativeValsArr = [];
+
+            values.forEach(value => {
+                if (value.includes('-')) {
+                    haveNegative = true;
+                    negativeValsArr.push(value);
+                }
+                else {
+                    positiveValsArr.push(value);
+                }
+            });
+        
+            if (haveNegative) {
+                let positiveSum = "positiveSum";
+                let negativeSum = "negativeSum";
+                
+                if (values.length === 2) {
+                    commandText = "SubTemplate.py (" + values + ")";
+                }
+                else if (values.length === 3) {
+                    if (positiveValsArr.length === 1){
+                        commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
+                        commandText += "SubTemplate.py (" + positiveValsArr + ", " + negativeSum + ")";
+                    }
+                    else {
+                        commandText += "AddTemplate.py (" + positiveValsArr + ")\n";
+                        commandText += "SubTemplate.py (" + positiveSum + ", " + negativeValsArr + ")";
+                    }
+                }
+                else {
+                    commandText += "Addtemplate.py (" + positiveValsArr + ")\n";
+                    commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
+                    commandText += "SubTemplate.py (" + positiveSum + ", " + negativeSum + ")";
+                }
             }
             else {
-                commandText += "AddTemplate.py (" + positiveValsArr + ")\n";
-                commandText += "SubTemplate.py (" + positiveSum + ", " + negativeValsArr + ")";
+                commandText = "AddTemplate.py (" + values + ")";
             }
+            break;
         }
-        else {
-            commandText += "Addtemplate.py (" + positiveValsArr + ")\n";
-            commandText += "AddTemplate.py (" + negativeValsArr + ")\n";
-            commandText += "SubTemplate.py (" + positiveSum + ", " + negativeSum + ")";
+        default: {
+            commandText = "Dose not have solveType: " + solveType;
+            break;
         }
-    }
-    else {
-        commandText = "AddTemplate.py (" + values + ")";
     }
 
     return commandText;
@@ -151,7 +175,7 @@ Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(s
     
     switch (OP_TO_STRING[opNode.op]) {
         case 'Combine': 
-            return combineTemplate(before);
+            return combineTemplate(before, 'sequence');
         case 'Multiply': 
             return 'MulTemplate.py (' + before + ')';
         case 'Divide': 

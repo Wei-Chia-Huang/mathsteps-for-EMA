@@ -1,3 +1,3 @@
-123 - 3 - 6
-Combine 123, -3 and -6 to get 114
-114
+123 + 2 - 6 + 5 - 6
+Combine 123, 2, -6, 5 and -6 to get 118
+118
