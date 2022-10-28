@@ -1,6 +1,8 @@
-Template command of 123 + 2 - 6 + 5 - 6
-AddTemplate.py (123,2)
-SubTemplate.py (125,-6)
-AddTemplate.py (119,5)
-SubTemplate.py (124,-6)
+Template command of 123 + 5 * 6 / 3 - 6 + 9
+DivTemplate.py (\frac{6}{3})
+SubTemplate.py (123,-6)
+AddTemplate.py (117,9)
+
+MulTemplate.py (5,2)
+AddTemplate.py (126,10)
 

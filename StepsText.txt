@@ -1,3 +1,9 @@
-123 + 2 - 6 + 5 - 6
-Combine 123, 2, -6, 5 and -6 to get 118
-118
+123 + 5 * 6/3 - 6 + 9
+Simplify by dividing the top and bottom by the greatest common denominator
+123 + 5 * 2 - 6 + 9
+Collect and combine like terms
+126 + 5 * 2
+Multiply 5 and 2 to get 10
+126 + 10
+Combine 126 and 10 to get 136
+136

@@ -157,6 +157,48 @@ function combineTemplate(values, solveType) {
     return commandText;
 }
 
+// e.g. 1 + 2 * 5 + 3 -> 4 + 2 * 5
+Template.templateFormatFunctionMap[ChangeTypes.COLLECT_AND_COMBINE_LIKE_TERMS] = function(step) {
+    const oldNodes = getOldChangeNodes(step);
+    const newNodes = getNewChangeNodes(step);
+    if (oldNodes.length !== 1 || newNodes.length !== 1) {
+        return null;
+    }
+
+    const opNode = oldNodes[0];
+    if (!NodeType.isOperator(opNode) || '+-*/^'.indexOf(opNode.op) === -1) {
+        return null;
+    }
+
+    const before = nodesToString(opNode.args, true);
+    let combineValsArr = [];
+    
+    before.forEach(value => {
+        if (!isNaN(value))
+            combineValsArr.push(value);
+    });
+
+    return combineTemplate(combineValsArr, 'sequence');
+}
+
+// e.g. 1/2 * 2/3 -> 2/6
+Template.templateFormatFunctionMap[ChangeTypes.MULTIPLY_FRACTIONS] = function(step) {
+    const oldNodes = getOldChangeNodes(step);
+    const newNodes = getNewChangeNodes(step);
+    if (oldNodes.length !== 1 || newNodes.length !== 1) {
+        return null;
+    }
+
+    const opNode = oldNodes[0];
+    if (!NodeType.isOperator(opNode) || opNode.op !== '*') {
+        return null;
+    }
+
+    const before = nodesToString(opNode.args, true);
+    const after = newNodes[0].toTex();
+    return "Multiply " + before + " to get " + after;
+};
+
 // e.g. 2 + 2 -> 4 or 2 * 2 -> 4
 Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_ARITHMETIC] = function(step) {
     const oldNodes = getOldChangeNodes(step);
@@ -202,6 +244,73 @@ Template.templateFormatFunctionMap[ChangeTypes.SIMPLIFY_FRACTION] = function(ste
     else{
         return step.changeType;
     }
+};
+
+Template.ChangeText = {
+    ABSOLUTE_VALUE: 'Take the absolute value',
+    ADD_COEFFICIENT_OF_ONE: 'Rewrite term to have a coefficient of 1',
+    ADD_EXPONENT_OF_ONE: 'Rewrite term to have an exponent of 1',
+    ADD_FRACTIONS: 'Add the fractions together',
+    ADD_NUMERATORS: 'Add the terms in the numerator',
+    ADD_POLYNOMIAL_TERMS: 'Add the polynomial terms together',
+    ADD_TO_BOTH_SIDES: 'Add the term to both sides',
+    BREAK_UP_FRACTION: 'Break up the fraction',
+    CANCEL_EXPONENT: 'Cancel the exponent',
+    CANCEL_EXPONENT_AND_ROOT: 'Cancel the exponent and the root',
+    CANCEL_MINUSES: 'Cancel the negatives in the numerator and denominator',
+    CANCEL_ROOT: 'Cancel the root',
+    CANCEL_TERMS: 'Cancel like terms in the numerator and denominator',
+    COLLECT_AND_COMBINE_LIKE_TERMS: 'Collect and combine like terms',
+    COLLECT_EXPONENTS: 'Collect the exponents',
+    COLLECT_LIKE_TERMS: 'Identify the like terms and group them together',
+    COMBINE_NUMERATORS: 'Combine the numerators with a shared denominator',
+    COMMON_DENOMINATOR: 'Multiply the terms so they share a common denominator',
+    COMBINE_UNDER_ROOT: 'Combine terms with the same root',
+    CONVERT_INTEGER_TO_FRACTION: 'Change the number to a fraction with the same denominator',
+    CONVERT_MULTIPLICATION_TO_EXPONENT: 'Change repeatedly multiplying a term to an exponent',
+    DISTRIBUTE: 'Distribute into the parentheses',
+    DISTRIBUTE_NEGATIVE_ONE: 'Distribute -1 into the parentheses',
+    DISTRIBUTE_NTH_ROOT: 'Distribute the root into each term',
+    DIVIDE_FRACTION_FOR_ADDITION: 'Divide any fractions to convert it to decimal form',
+    DIVIDE_FROM_BOTH_SIDES: 'Divide the term from both sides',
+    DIVISION_BY_NEGATIVE_ONE: 'Rewrite any term divided by -1 as the negative of the term',
+    DIVISION_BY_ONE: 'Rewrite any term divided by 1 as just the term',
+    EVALUATE_DISTRIBUTED_NTH_ROOT: 'Take the root of all the terms',
+    FACTOR_INTO_PRIMES: 'Factor the number into its prime factors',
+    GROUP_COEFFICIENTS: 'Group the coefficients together',
+    GROUP_TERMS_BY_ROOT: 'Group repeating factors',
+    MULTIPLY_BOTH_SIDES_BY_INVERSE_FRACTION: 'Multiply both sides by the inverse of the fraction',
+    MULTIPLY_BOTH_SIDES_BY_NEGATIVE_ONE: 'Multiply both sides by -1',
+    MULTIPLY_BY_INVERSE: 'Rewrite division as multiplication by the inverse',
+    MULTIPLY_BY_ZERO: 'Rewrite any term multiplied by 0 as 0',
+    MULTIPLY_COEFFICIENTS: 'Multiply the coefficients together',
+    MULTIPLY_DENOMINATORS: 'Multiply the terms in the denominators',
+    MULTIPLY_FRACTIONS: 'Multiply the fractions together',
+    MULTIPLY_NUMERATORS: 'Multiply the terms in the numerators',
+    MULTIPLY_POLYNOMIAL_TERMS: 'Multiply the polynomial terms together',
+    MULTIPLY_TO_BOTH_SIDES: 'Multiply the term to both sides',
+    NTH_ROOT_VALUE: 'Take the root of the number',
+    NO_CHANGE: 'No change',
+    REARRANGE_COEFF: 'Move the coefficient to the front of the term',
+    REDUCE_ZERO_NUMERATOR: 'Rewrite zero divided by anything as zero',
+    REMOVE_EXPONENT_BY_ONE: 'Rewrite any term to the power of 1 as itself',
+    REDUCE_EXPONENT_BY_ZERO: 'Rewrite any term to the power of 0 as 1',
+    REMOVE_ADDING_ZERO: 'Remove zero when adding',
+    REMOVE_MULTIPLYING_BY_NEGATIVE_ONE: 'Rewrite any term multiplied by -1 as the negative of the term',
+    REMOVE_MULTIPLYING_BY_ONE: 'Rewrite any term multiplied 1 as just the term',
+    RESOLVE_DOUBLE_MINUS: 'Change subtracting a negative to addition',
+    SIMPLIFY_ARITHMETIC: 'Evaluate the arithmetic',
+    SIMPLIFY_DIVISION: 'Rewrite the chain of division',
+    SIMPLIFY_FRACTION: 'Simplify by dividing the top and bottom by the greatest common denominator',
+    SIMPLIFY_LEFT_SIDE: 'Simplify the left hand side',
+    SIMPLIFY_RIGHT_SIDE: 'Simplify the right hand side',
+    SIMPLIFY_SIGNS: 'Move the negative sign to the numerator',
+    SIMPLIFY_TERMS: 'Simplify after distributing',
+    STATEMENT_IS_FALSE: 'The statement is False',
+    STATEMENT_IS_TRUE: 'The statement is True',
+    SUBTRACT_FROM_BOTH_SIDES: 'Subtract the term from both sides',
+    SWAP_SIDES: 'Swap sides',
+    UNARY_MINUS_TO_NEGATIVE_ONE: 'Rewrite minus as a coefficient of -1',
 };
 
 module.exports = Template;
