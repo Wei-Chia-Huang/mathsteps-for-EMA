@@ -1,3 +1,16 @@
+## [ 1028 ] 新增 ChooseTemplate.js
+
+### ChooseTemplate.js
+
+`用來決定影片模板順序，用來跟 Change.js 得到的詳解步驟做區分`
+
+`在選擇到 combineTemplate 時，可以決定 "sequence" 或 "pos - neg" 兩種 solveType`
+
+### **⚠️使用警告⚠️**
+
+1. 目前只有在化簡方式為 `COLLECT_AND_COMBINE_LIKE_TERMS, SIMPLIFY_ARITHMETIC, SIMPLIFY_FRACTION` 時，才會做影片模板的選擇
+2. 分數化簡不是整數時，目前先忽略選擇模板的動作
+
 ## 系統運行需求
 
 ### Node.js：
